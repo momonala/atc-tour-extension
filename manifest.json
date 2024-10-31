@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "ATC tour filter",
+  "version": "1.0",
+  "description": "Automatically switches to list view and filters tours by country.",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["https://expeditions.againstthecompass.com/tours/*"],
+  "content_scripts": [{"matches": ["https://expeditions.againstthecompass.com/tours/*"], "js": ["content.js"]}],
+  "icons": {"16": "icon.png", "48": "icon.png", "128": "icon.png"},
+  "action": {"default_icon": "icon.png"}
+}
