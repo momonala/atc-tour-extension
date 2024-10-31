@@ -1,5 +1,3 @@
-console.log("Content script loaded.");
-
 // Function to remove the header background image
 function removeHeaderImage() {
   const styleElement = document.createElement('style');
@@ -7,13 +5,13 @@ function removeHeaderImage() {
   // Add CSS rules to override the background image and remove space
   styleElement.innerHTML = `
     .header-holder:after {
-      background-image: none !important; /* Remove the background image */
+      background-image: none !important;
     }
     .header-holder {
-      height: 0 !important; /* Set height to 0 */
-      padding: 0 !important; /* Remove padding */
-      margin: 0 !important; /* Remove margin */
-      overflow: hidden; /* Prevent overflow */
+      height: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: hidden;
     }
   `;
   // Append the style element to the head
@@ -55,6 +53,16 @@ const observer = new MutationObserver((mutations, observerInstance) => {
         if (countriesToExclude.some((country) => itemText.includes(country))) {
           item.style.display = "none"; // Hide the item if it contains the specified countries
           console.log(`Filtered out item: ${itemText.trim()}`);
+        } else {
+          // Adjust the price to show a 10% discount
+          const priceCell = item.querySelector("td:nth-child(3)");
+          if (priceCell) {
+            const originalPriceText = priceCell.textContent.trim();
+            const originalPrice = parseFloat(originalPriceText.replace(/[^0-9.-]+/g, ""));
+            const discountedPrice = (originalPrice * (1-0.075)).toFixed(2);
+            priceCell.textContent = `${originalPriceText} (€${discountedPrice})`;
+            console.log(`Updated price: ${originalPriceText} -> (€${discountedPrice})`);
+          }
         }
       });
     } else {
