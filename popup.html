@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* General page styling */
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      font-size: 14px;
+      margin: 8px;
+      padding: 0;
+      color: #333;
+      align-items: start;
+      line-height: 1.4;
+    }
+
+    /* Headings styling */
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 6px 0;
+    }
+
+    /* Textarea and input styling */
+    #countries, #discount {
+      width: 300px;
+      margin-bottom: 8px;
+      padding: 4px;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    /* Discount input specific */
+    #discount {
+      width: 70px;
+      max-width: 100px;
+    }
+
+    /* Button styling */
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Confirmation message */
+    #confirmation {
+      color: green;
+      font-size: 0.9rem;
+      margin-left: 10px;
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+  <h2>Against the Compass Filter</h2>
+  <h4>Exclude Countries</h4>
+  <textarea id="countries" placeholder="Enter countries separated by commas" rows="4"></textarea>
+
+  <h4>Discount Percentage</h4>
+  <input id="discount" type="number" min="0" max="100" placeholder="10">
+
+  <button id="save">Save</button>
+  <span id="confirmation">✔ Saved</span>
+
+  <script src="popup.js"></script>
+</body>
+</html>

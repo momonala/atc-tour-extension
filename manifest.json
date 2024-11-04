@@ -3,9 +3,21 @@
   "name": "ATC tour filter",
   "version": "1.0",
   "description": "Automatically switches to list view and filters tours by country.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "host_permissions": ["https://expeditions.againstthecompass.com/tours/*"],
-  "content_scripts": [{"matches": ["https://expeditions.againstthecompass.com/tours/*"], "js": ["content.js"]}],
-  "icons": {"16": "icon.png", "48": "icon.png", "128": "icon.png"},
-  "action": {"default_icon": "icon.png"}
+  "content_scripts": [
+    {
+      "matches": ["https://expeditions.againstthecompass.com/tours/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  }
 }
