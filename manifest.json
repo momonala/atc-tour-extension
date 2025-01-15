@@ -8,16 +8,16 @@
   "content_scripts": [
     {
       "matches": ["https://expeditions.againstthecompass.com/tours/*"],
-      "js": ["content.js"]
+      "js": ["scripts/content.js"]
     }
   ],
   "icons": {
-    "16": "icon_emoji.png",
-    "48": "icon_emoji.png",
-    "128": "icon_emoji.png"
+    "16": "icons/icon_emoji.png",
+    "48": "icons/icon_emoji.png",
+    "128": "icons/icon_emoji.png"
   },
   "action": {
-    "default_icon": "icon_emoji.png",
+    "default_icon": "icons/icon_emoji.png",
     "default_popup": "popup.html"
   }
 }
