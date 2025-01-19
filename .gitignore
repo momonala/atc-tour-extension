@@ -4,3 +4,4 @@ values.py
 .DS_Store
 __pycache__/
 cache/
+event_cache.json
