@@ -61,7 +61,6 @@ def fetch_tour_data() -> list[TourInfo]:
 
     parsed_tours = []
     for entry in tour_entries:
-        print(entry)
 
         # Extract country from the tour name
         tour_name_elem = entry.find("h3", class_="tour-name")
