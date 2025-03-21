@@ -62,7 +62,12 @@ def create_or_update_gcal_event(tour_info: TourInfo):
             f"{'📅 Created new event!:':<20} {tour_info.asstr()} ID {event['id']}",
             "green",
         )
-        cache[tour_hash] = {"event_id": event["id"], "full_tour_hash": full_tour_hash}
+        cache[tour_hash] = {
+            "event_id": event["id"],
+            "full_tour_hash": full_tour_hash,
+            "start_date": tour_info.start_date.isoformat(),
+            "country": tour_info.country
+        }
         save_calendar_event_cache(cache)
     else:
         if not tour_info.is_available:
@@ -87,3 +92,10 @@ def create_or_update_gcal_event(tour_info: TourInfo):
                 f"{'📅 Updated event:':<20} {tour_info.asstr()} ID {event['id']}",
                 "yellow",
             )
+            cache[tour_hash] = {
+                "event_id": event["id"],
+                "full_tour_hash": full_tour_hash,
+                "start_date": tour_info.start_date.isoformat(),
+                "country": tour_info.country
+            }
+            save_calendar_event_cache(cache)

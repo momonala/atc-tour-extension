@@ -24,6 +24,7 @@ excluded_countries = [
     "Venezuela",
     "Somaliland",
     "Yemen",
+    "Kazakhstan",
 ]
 
 countries = [
