@@ -4,47 +4,19 @@ from zoneinfo import ZoneInfo
 import requests
 from bs4 import BeautifulSoup
 from joblib import Memory
+import yaml
 
 from datamodels import TourInfo, print_color
 from gservices import create_or_update_gcal_event
 
 disk_memory = Memory("cache")
 
-discount = 0.10
+with open("config.yaml", "r") as f:
+    config = yaml.safe_load(f)
 
-excluded_countries = [
-    "Syria",
-    "Mauritania",
-    "Iraq",
-    "Socotra",
-    "Venezuela",
-    "Russian Caucasus",
-    "Arctic Russia",
-    "Venezuela",
-    "Somaliland",
-    "Yemen",
-    "Kazakhstan",
-    "Eritrea",
-]
-
-countries = [
-    "Eritrea",
-    "Mauritania",
-    "Libya",
-    "Iraq",
-    "Syria",
-    "Turkmenistan",
-    "Pakistan",
-    "Kazakhstan",
-    "Venezuela",
-    "Russian Caucasus",
-    "Arctic Russia",
-    "Yemen",
-    "Somaliland",
-    "Socotra",
-    "Eritrea + Somaliland",
-    "Yemen + Socotra",
-]
+discount = config["discount"]
+excluded_countries = config["excluded_countries"]
+countries = config["countries"]
 
 
 @disk_memory.cache()

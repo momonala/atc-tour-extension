@@ -21,6 +21,7 @@ requests = "*"
 joblib = "*"
 google-api-python-client = "*"
 google-auth = "*"
+pyyaml = "^6.0.2"
 
 [build-system]
 requires = ["poetry-core"]

@@ -1,0 +1,30 @@
+discount: 0.10
+excluded_countries:
+  - Syria
+  - Mauritania
+  - Iraq
+  - Socotra
+  - Venezuela
+  - Russian Caucasus
+  - Arctic Russia
+  - Somaliland
+  - Yemen
+  - Kazakhstan
+  - Eritrea
+countries:
+  - Eritrea
+  - Mauritania
+  - Libya
+  - Iraq
+  - Syria
+  - Turkmenistan
+  - Pakistan
+  - Kazakhstan
+  - Venezuela
+  - Russian Caucasus
+  - Arctic Russia
+  - Yemen
+  - Somaliland
+  - Socotra
+  - Eritrea + Somaliland
+  - Yemen + Socotra 
