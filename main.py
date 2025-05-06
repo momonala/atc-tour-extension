@@ -158,13 +158,16 @@ def pretty_print_tour_single_line(tour_info: TourInfo):
 
     if "oriol" in tour_info.leader.lower() and am_interested(tour_info):
         line_color = "green"
+        start = "✅"
     elif am_interested(tour_info):
         line_color = "yellow"
+        start = "🟡"
     else:
         line_color = "red"
+        start = "❌"
 
     print_color(
-        f"{tour_info.country:<20} {tour_info.leader:<20} {tour_info.days:<5} {start_date_str:<15} {end_date_str:<15} {tour_info.price:<8} {tour_info.discount:<10} {'Yes' if tour_info.is_available else 'No':<10}",  # noqa
+        f"{start} {tour_info.country:<20} {tour_info.leader:<20} {tour_info.days:<5} {start_date_str:<15} {end_date_str:<15} {tour_info.price:<8} {tour_info.discount:<10} {'Yes' if tour_info.is_available else 'No':<10}",  # noqa
         line_color,
     )
 

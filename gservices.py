@@ -41,9 +41,9 @@ def extract_country(country_name: str) -> pycountry.db.Country:
 def send_telegram_alert(tour_info: TourInfo, alert_type: str):
     """Send notification message with new tour info"""
     if alert_type == "new":
-        message = f"🌍 New tour!\n{tour_info.asstr()}"
+        message = f"🌍 New tour!\n{tour_info.as_notification()}"
     elif alert_type == "update":
-        message = f"🌍 Updated tour!\n{tour_info.asstr()}"
+        message = f"🌍 Updated tour!\n{tour_info.as_notification()}"
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
 
@@ -63,14 +63,8 @@ def create_or_update_gcal_event(tour_info: TourInfo):
     event_description = f"{pycountry_obj.flag} ATC {tour_info.country} with {tour_info.leader}! | €{tour_info.discount} | {tour_info.days} days"  # noqa
     event = {
         "summary": event_description,
-        "start": {
-            "dateTime": tour_info.start_date.isoformat(),
-            "timeZone": "Europe/Berlin",
-        },
-        "end": {
-            "dateTime": tour_info.end_date.isoformat(),
-            "timeZone": "Europe/Berlin",
-        },
+        "start": {"dateTime": tour_info.start_date.isoformat(), "timeZone": "Europe/Berlin"},
+        "end": {"dateTime": tour_info.end_date.isoformat(), "timeZone": "Europe/Berlin"},
         "description": event_description,
     }
 
@@ -79,10 +73,7 @@ def create_or_update_gcal_event(tour_info: TourInfo):
     if not existing_event:
         send_telegram_alert(tour_info, "new")
         event = gcal_client.insert(calendarId=CALENDAR_ID, body=event).execute()
-        print_color(
-            f"{'📅 Created new event!:':<20} {tour_info.asstr()} ID {event['id']}",
-            "green",
-        )
+        print_color(f"{'📅 Created new event!:':<20} {tour_info.asstr()} ID {event['id']}", "green")
         cache[tour_hash] = {
             "event_id": event["id"],
             "full_tour_hash": full_tour_hash,
