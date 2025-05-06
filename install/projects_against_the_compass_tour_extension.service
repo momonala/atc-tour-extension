@@ -1,0 +1,12 @@
+[Unit]
+ Description=Against the Compass Tour G-cal Service
+ After=multi-user.target
+
+ [Service]
+ WorkingDirectory=/home/mnalavadi/projects_against_the_compass_tour_extension
+ Type=idle
+ ExecStart=/home/mnalavadi/miniconda3/envs/projects_against_the_compass_tour_extension/bin/python scheduler.py
+ User=mnalavadi
+
+ [Install]
+ WantedBy=multi-user.target

@@ -1,6 +1,5 @@
 .idea/
 google_application_credentials.json
-values.py
 .DS_Store
 __pycache__/
 cache/

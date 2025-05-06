@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 import requests
@@ -7,7 +7,6 @@ from joblib import Memory
 
 from datamodels import TourInfo, print_color
 from gservices import create_or_update_gcal_event
-
 
 disk_memory = Memory("cache")
 
@@ -25,6 +24,7 @@ excluded_countries = [
     "Somaliland",
     "Yemen",
     "Kazakhstan",
+    "Eritrea",
 ]
 
 countries = [
@@ -99,13 +99,11 @@ def fetch_tour_data() -> list[TourInfo]:
         # Extract availability
         is_sold_out = (
             entry.find("div", class_="ribbon")
-            and "sold out"
-            in entry.find("div", class_="ribbon").get_text(strip=True).lower()
+            and "sold out" in entry.find("div", class_="ribbon").get_text(strip=True).lower()
         )
         is_waiting_list = (
             entry.find("button", class_="btn-sold-out")
-            and "waiting list"
-            in entry.find("button", class_="btn-sold-out").get_text(strip=True).lower()
+            and "waiting list" in entry.find("button", class_="btn-sold-out").get_text(strip=True).lower()
         )
         is_available = not (is_sold_out or is_waiting_list)
 
@@ -144,6 +142,7 @@ def convert_to_datetimes(date_range):
         "Jul": 7,
         "Aug": 8,
         "Sep": 9,
+        "Sept": 9,
         "Oct": 10,
         "Nov": 11,
         "Dec": 12,
@@ -176,6 +175,7 @@ def am_interested(tour_info: TourInfo):
         [
             tour_info.is_available,
             tour_info.country not in excluded_countries,
+            "oriol" in tour_info.leader.lower(),
         ]
     )
 
@@ -184,7 +184,7 @@ def pretty_print_tour_single_line(tour_info: TourInfo):
     start_date_str = tour_info.start_date.strftime("%d %b %Y")
     end_date_str = tour_info.end_date.strftime("%d %b %Y")
 
-    if "Oriol" in tour_info.leader and am_interested(tour_info):
+    if "oriol" in tour_info.leader.lower() and am_interested(tour_info):
         line_color = "green"
     elif am_interested(tour_info):
         line_color = "yellow"

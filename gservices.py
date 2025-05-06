@@ -1,12 +1,16 @@
 import json
+import logging
 import os
 
 import country_converter as coco
 import pycountry
+import requests
 from googleapiclient.discovery import build
 
 from datamodels import TourInfo, print_color
-from values import CALENDAR_ID, credentials
+from values import CALENDAR_ID, TELEGRAM_CHAT_ID, TELEGRAM_TOKEN, credentials
+
+logger = logging.getLogger(__name__)
 
 # Authenticate and build services
 calendar_service = build("calendar", "v3", credentials=credentials)
@@ -34,6 +38,22 @@ def extract_country(country_name: str) -> pycountry.db.Country:
     return pycountry.countries.get(alpha_3=iso3)
 
 
+def send_telegram_alert(tour_info: TourInfo, alert_type: str):
+    """Send notification message with new tour info"""
+    if alert_type == "new":
+        message = f"🌍 New tour!\n{tour_info.asstr()}"
+    elif alert_type == "update":
+        message = f"🌍 Updated tour!\n{tour_info.asstr()}"
+    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
+
+    try:
+        requests.post(url, json=payload, timeout=10)
+        logger.info(f"{message}. Telegram alert sent.")
+    except Exception as e:
+        logger.error(f"Failed to send Telegram message: {e}")
+
+
 def create_or_update_gcal_event(tour_info: TourInfo):
     cache = load_calenar_event_cache()
     tour_hash = str(hash(tour_info))
@@ -57,6 +77,7 @@ def create_or_update_gcal_event(tour_info: TourInfo):
     existing_event = cache.get(tour_hash)
     existing_event_id = existing_event["event_id"] if existing_event else None
     if not existing_event:
+        send_telegram_alert(tour_info, "new")
         event = gcal_client.insert(calendarId=CALENDAR_ID, body=event).execute()
         print_color(
             f"{'📅 Created new event!:':<20} {tour_info.asstr()} ID {event['id']}",
@@ -66,15 +87,13 @@ def create_or_update_gcal_event(tour_info: TourInfo):
             "event_id": event["id"],
             "full_tour_hash": full_tour_hash,
             "start_date": tour_info.start_date.isoformat(),
-            "country": tour_info.country
+            "country": tour_info.country,
         }
         save_calendar_event_cache(cache)
     else:
         if not tour_info.is_available:
             # Delete the existing event if tour no longer available
-            gcal_client.delete(
-                calendarId=CALENDAR_ID, eventId=existing_event_id
-            ).execute()
+            gcal_client.delete(calendarId=CALENDAR_ID, eventId=existing_event_id).execute()
             print_color(
                 f"{'📅 Deleted event:':<20} {tour_info.asstr()} ID {existing_event_id}. No longer available.",
                 "red",
@@ -85,6 +104,7 @@ def create_or_update_gcal_event(tour_info: TourInfo):
                 "green",
             )
         else:
+            send_telegram_alert(tour_info, "update")
             event = gcal_client.update(
                 calendarId=CALENDAR_ID, eventId=existing_event_id, body=event
             ).execute()
@@ -96,6 +116,6 @@ def create_or_update_gcal_event(tour_info: TourInfo):
                 "event_id": event["id"],
                 "full_tour_hash": full_tour_hash,
                 "start_date": tour_info.start_date.isoformat(),
-                "country": tour_info.country
+                "country": tour_info.country,
             }
             save_calendar_event_cache(cache)

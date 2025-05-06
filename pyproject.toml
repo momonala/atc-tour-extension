@@ -1,0 +1,27 @@
+[tool.black]
+line-length = 110
+target-version = ['py312']
+include = '\.py'
+
+[tool.poetry]
+name = "against_the_compass_tour_extension"
+version = "0.1.0"
+description = ""
+authors = ["momonala <mnalavadi@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.12.*"
+beautifulsoup4 = "*"
+country_converter = "*"
+google_api_python_client = "*"
+protobuf = "*"
+pycountry = "*"
+requests = "*"
+joblib = "*"
+google-api-python-client = "*"
+google-auth = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

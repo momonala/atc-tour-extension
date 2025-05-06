@@ -1,9 +1,0 @@
-beautifulsoup4
-country_converter
-google_api_python_client
-protobuf
-pycountry
-requests
-joblib
-google-api-python-client
-google-auth

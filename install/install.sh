@@ -1,0 +1,9 @@
+projects_against_the_compass_tour_extension
+sudo cp install/projects_against_the_compass_tour_extension.service /lib/systemd/system/projects_against_the_compass_tour_extension.service
+
+sudo chmod 644 /lib/systemd/system/projects_against_the_compass_tour_extension.service
+
+sudo systemctl daemon-reload
+sudo systemctl daemon-reexec
+
+sudo systemctl enable projects_against_the_compass_tour_extension.service
